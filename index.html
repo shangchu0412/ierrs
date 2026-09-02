@@ -27,6 +27,10 @@
 .system-footer{display:none}main:has(#home.active)>.system-footer{display:block}
 .home-tool{box-shadow:0 8px 24px rgba(19,49,77,.06)}.home-tool.faq-tool{background:linear-gradient(135deg,#f2f8fb,#e8f3f7);border-color:#c9dfe8}.home-tool.sop-tool{background:linear-gradient(135deg,#f1f9f7,#e5f4f1);border-color:#c5e2dc}.home-tool.faq-tool:hover{border-color:#6fa9bd;background:linear-gradient(135deg,#f6fbfd,#e7f3f8)}.home-tool.sop-tool:hover{border-color:#62b2a9;background:linear-gradient(135deg,#f6fbfa,#e5f5f2)}.home-tool-icon{width:54px;height:54px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.9);box-shadow:0 5px 16px rgba(19,49,77,.07)}.home-tool-icon img{width:32px;height:32px;display:block;object-fit:contain}.faq-tool .home-tool-icon img{filter:invert(35%) sepia(31%) saturate(1173%) hue-rotate(151deg) brightness(89%) contrast(90%)}.sop-tool .home-tool-icon img{filter:invert(42%) sepia(42%) saturate(792%) hue-rotate(131deg) brightness(91%) contrast(91%)}
 .home-tool .home-tool-icon{display:flex!important;align-items:center;justify-content:center;padding:0;line-height:0}.home-tool .home-tool-icon img{display:block;margin:auto;flex:none}
+body:has(#home.active){background:linear-gradient(180deg,#fff 0,#fff 102px,#e8f1f4 102px,#f7fafb 522px)}
+@media(max-width:760px){body:has(#home.active){background:linear-gradient(180deg,#fff 0,#fff 92px,#e8f1f4 92px,#f7fafb 512px)}}
+body:has(#home.active){background:linear-gradient(180deg,#fff 0,#fff 220px,#e8f1f4 220px,#f7fafb 640px)}
+@media(max-width:760px){body:has(#home.active){background:linear-gradient(180deg,#fff 0,#fff 180px,#e8f1f4 180px,#f7fafb 600px)}}
 </style>
 </head>
 <body>
@@ -125,7 +129,7 @@
     <section class="panel"><div class="panel-head"><div class="num">i</div><div><h2>進出口資料重點</h2></div></div><div class="compare-grid"><div class="compare-card"><h3>進口檢核表</h3><ul><li>採購案件需提供採購單號</li><li>準備賣方公司與聯絡資料</li><li>確認需求日、進口原因與交易條件</li><li>依發票數量完成每箱裝箱分配</li></ul></div><div class="compare-card"><h3>出口檢核表</h3><ul><li>訂單案件需提供訂單及 SAP 發票號碼</li><li>準備買方公司、稅務與聯絡資料</li><li>確認抵達日期、承運商與建單方式</li><li>依建單方式提供快遞帳號或運單號碼</li></ul></div></div></section>
     <section class="panel"><div class="panel-head"><div class="num">✓</div><div><h2>送出前快速檢查</h2></div></div><ul class="read-list"><li>公司名稱、地址、國家及聯絡資料與文件一致。</li><li>交易幣別、單價、數量及總金額正確。</li><li>各箱裝箱數量合計未超過發票數量，重量與尺寸完整。</li><li>承運商、快遞帳號、運單號碼及附件符合目前物流安排。</li><li>列印預覽內容完整後，再另存為 PDF。</li></ul></section>
     <div class="actions"><button class="btn secondary" onclick="showScreen('home',0)">返回首頁</button></div></section>
-  <footer class="system-footer" id="systemFooter">本系統由關務規劃與設計｜目前版本：Version 1.0.2｜最後更新：2026/09/02</footer>
+  <footer class="system-footer" id="systemFooter">本系統由關務規劃與設計｜目前版本：Version 1.0.3｜最後更新：2026/09/02</footer>
 </main>
 
 <div class="tipbox" id="tipbox"></div>
@@ -227,7 +231,7 @@ const INCOTERMS_GUIDE={EXW:{n:'工廠交貨',m:'任何運輸',s:1,r:1,rt:'賣方
 function selectIncotermGuide(k){const root=document.getElementById('incoterms-pro'),d=INCOTERMS_GUIDE[k],stages=['賣方場所','出口通關','交付／裝運','主運輸','指定目的地','進口稅費'];root.querySelectorAll('.ip-term').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.term===k)));root.querySelector('#ip-code').textContent=k;root.querySelector('#ip-name').textContent=d.n;root.querySelector('#ip-mode').textContent=d.m;root.querySelector('#ip-mini').textContent=d.mini;root.querySelector('#ip-route').innerHTML=stages.map((s,i)=>`<div class="ip-stage ${i<d.s?'seller':''}"><b>${i+1}</b>${s}</div>`).join('');root.querySelector('#ip-risk-marker').style.setProperty('--risk',`${d.r} / span 1`);root.querySelector('#ip-risk').textContent=d.rt;root.querySelector('#ip-insurance').textContent=d.ins;root.querySelector('#ip-import').textContent=d.imp;root.querySelector('#ip-caution').textContent=d.c?'注意：此條件的風險移轉點早於賣方費用負擔終點，兩者不可混為一談。':'實際責任仍應依合約指定地點、運送安排及個案條件確認。'}
 function openIncotermsGuide(){document.getElementById('incotermsModal').classList.add('open');document.body.style.overflow='hidden'}function closeIncotermsGuide(){document.getElementById('incotermsModal').classList.remove('open');document.body.style.overflow=''}
 function initIncotermsGuide(){const root=document.getElementById('incoterms-pro'),make=(list,id)=>root.querySelector(id).innerHTML=list.map(k=>`<button type="button" class="ip-term" data-term="${k}" aria-pressed="false">${k}</button>`).join('');make(['EXW','FCA','CPT','CIP','DAP','DPU','DDP'],'#ip-any');make(['FAS','FOB','CFR','CIF'],'#ip-sea');root.addEventListener('click',e=>{const b=e.target.closest('.ip-term');if(b)selectIncotermGuide(b.dataset.term)});['incoterm','exIncoterm'].forEach(id=>{const label=document.querySelector(`label[for="${id}"]`);if(label&&!label.querySelector('.trade-help'))label.insertAdjacentHTML('beforeend',' <button type="button" class="tip trade-help" onclick="openIncotermsGuide()" aria-label="查看 Incoterms 2020 貿易條件圖解">?</button>')});selectIncotermGuide('EXW')}
-initIncotermsGuide();document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('incotermsModal').classList.contains('open'))closeIncotermsGuide()});
+initIncotermsGuide();document.querySelector('.brand span').textContent='Import & Export Request Review System';document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.getElementById('incotermsModal').classList.contains('open'))closeIncotermsGuide()});
 </script>
 </body>
 </html>
